@@ -1,0 +1,263 @@
+@model IEnumerable<BubbleTeaCafe.Models.Product>
+
+@{
+    ViewData["Title"] = ViewBag.CategoryName;
+    var categoryName = ViewBag.CategoryName as string;
+    var categoryDescription = ViewBag.CategoryDescription as string;
+}
+
+<div class="category-header">
+    <div class="container text-center">
+        <h1 class="display-4 mb-3">
+            @switch (categoryName)
+            {
+                case "Trà Sữa":
+                    <i class="fas fa-coffee me-3"></i>
+                    break;
+                case "Cà Phê":
+                    <i class="fas fa-mug-hot me-3"></i>
+                    break;
+                case "Trà Trái Cây":
+                    <i class="fas fa-glass-whiskey me-3"></i>
+                    break;
+                case "Smoothie":
+                    <i class="fas fa-blender me-3"></i>
+                    break;
+                default:
+                    <i class="fas fa-star me-3"></i>
+                    break;
+            }
+            @categoryName
+        </h1>
+        <p class="lead">@categoryDescription</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Menu", "Product")">Thực đơn</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@categoryName</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-6 text-end">
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-sort me-2"></i>Sắp xếp
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                    <li><a class="dropdown-item" href="#" onclick="sortProducts('name')">Tên A-Z</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="sortProducts('price-low')">Giá thấp đến cao</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="sortProducts('price-high')">Giá cao đến thấp</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4" id="productGrid">
+        @foreach (var product in Model)
+        {
+            <div class="col-lg-4 col-md-6 product-item" data-name="@product.Name.ToLower()" data-price="@product.Price">
+                <div class="card product-card h-100">
+                    <div class="position-relative overflow-hidden">
+                        @if (!string.IsNullOrEmpty(product.ImageUrl))
+                        {
+                            <img src="@product.ImageUrl" alt="@product.Name" class="w-100" style="height: 250px; object-fit: cover; border-radius: var(--border-radius) var(--border-radius) 0 0;" />
+                        }
+                        else
+                        {
+                            <div class="product-image-placeholder d-flex align-items-center justify-content-center" style="height: 250px;">
+                                @switch (categoryName)
+                                {
+                                    case "Trà Sữa":
+                                        <div class="text-center">
+                                            <i class="fas fa-coffee fa-4x text-primary mb-2"></i>
+                                            <div class="small text-muted">@categoryName</div>
+                                        </div>
+                                        break;
+                                    case "Cà Phê":
+                                        <div class="text-center">
+                                            <i class="fas fa-mug-hot fa-4x text-warning mb-2"></i>
+                                            <div class="small text-muted">@categoryName</div>
+                                        </div>
+                                        break;
+                                    case "Trà Trái Cây":
+                                        <div class="text-center">
+                                            <i class="fas fa-glass-whiskey fa-4x text-success mb-2"></i>
+                                            <div class="small text-muted">@categoryName</div>
+                                        </div>
+                                        break;
+                                    case "Smoothie":
+                                        <div class="text-center">
+                                            <i class="fas fa-blender fa-4x text-info mb-2"></i>
+                                            <div class="small text-muted">@categoryName</div>
+                                        </div>
+                                        break;
+                                    default:
+                                        <div class="text-center">
+                                            <i class="fas fa-image fa-4x text-muted mb-2"></i>
+                                            <div class="small text-muted">Sản phẩm</div>
+                                        </div>
+                                        break;
+                                }
+                            </div>
+                        }
+                        @if (!product.IsAvailable)
+                        {
+                            <div class="position-absolute top-0 end-0 m-2">
+                                <span class="badge bg-danger">Hết hàng</span>
+                            </div>
+                        }
+                        <div class="position-absolute bottom-0 start-0 m-2">
+                            <span class="badge bg-primary">@categoryName</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text text-muted flex-grow-1">@product.Description</p>
+                        
+                        @if (!string.IsNullOrEmpty(product.Ingredients))
+                        {
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    <i class="fas fa-leaf me-1"></i>@product.Ingredients
+                                </small>
+                            </div>
+                        }
+                        
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <div class="price-tag">@product.Price.ToString("N0")đ</div>
+                            <div class="btn-group">
+                                <a href="@Url.Action("Details", "Product", new { id = product.ProductId })" 
+                                   class="btn btn-outline-primary">
+                                    <i class="fas fa-eye me-1"></i>Chi tiết
+                                </a>
+                                @if (product.IsAvailable)
+                                {
+                                    <button type="button" class="btn btn-primary" 
+                                            onclick="quickAddToCart(@product.ProductId, '@product.Name', @product.Price)">
+                                        <i class="fas fa-cart-plus me-1"></i>Thêm
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <i class="fas fa-exclamation-circle fa-4x text-muted mb-3"></i>
+            <h3>Không có sản phẩm</h3>
+            <p class="text-muted">Hiện tại chưa có sản phẩm nào trong danh mục này</p>
+            <a href="@Url.Action("Menu", "Product")" class="btn btn-primary">
+                <i class="fas fa-arrow-left me-2"></i>Quay lại thực đơn
+            </a>
+        </div>
+    }
+</div>
+
+<!-- Quick Order Modal -->
+<div class="modal fade" id="quickOrderModal" tabindex="-1" aria-labelledby="quickOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="quickOrderModalLabel">Thêm vào giỏ hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="quickOrderForm" method="post" action="@Url.Action("AddToCart", "Cart")">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="modalProductId" name="ProductId" />
+                    
+                    <div class="mb-3">
+                        <label for="modalQuantity" class="form-label">Số lượng</label>
+                        <input type="number" class="form-control" id="modalQuantity" name="Quantity" value="1" min="1" max="99">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="modalSize" class="form-label">Kích thước</label>
+                        <select class="form-select" id="modalSize" name="Size">
+                            <option value="M">Size M</option>
+                            <option value="L">Size L</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="modalTemperature" class="form-label">Nhiệt độ</label>
+                        <select class="form-select" id="modalTemperature" name="Temperature">
+                            <option value="Cold">Lạnh</option>
+                            <option value="Hot">Nóng</option>
+                            <option value="Iced">Đá</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="modalSweetness" class="form-label">Độ ngọt</label>
+                        <select class="form-select" id="modalSweetness" name="Sweetness">
+                            <option value="0%">0% (Không đường)</option>
+                            <option value="25%">25%</option>
+                            <option value="50%" selected>50%</option>
+                            <option value="75%">75%</option>
+                            <option value="100%">100%</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="modalSpecialInstructions" class="form-label">Ghi chú đặc biệt</label>
+                        <textarea class="form-control" id="modalSpecialInstructions" name="SpecialInstructions" rows="2" placeholder="Ví dụ: Ít đá, nhiều trân châu..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="submitQuickOrder()">Thêm vào giỏ hàng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function quickAddToCart(productId, productName, price) {
+            document.getElementById('modalProductId').value = productId;
+            document.getElementById('quickOrderModalLabel').textContent = 'Thêm ' + productName + ' vào giỏ hàng';
+            
+            const modal = new bootstrap.Modal(document.getElementById('quickOrderModal'));
+            modal.show();
+        }
+
+        function submitQuickOrder() {
+            document.getElementById('quickOrderForm').submit();
+        }
+
+        function sortProducts(sortType) {
+            const grid = document.getElementById('productGrid');
+            const products = Array.from(grid.children);
+            
+            products.sort((a, b) => {
+                switch(sortType) {
+                    case 'name':
+                        const nameA = a.getAttribute('data-name');
+                        const nameB = b.getAttribute('data-name');
+                        return nameA.localeCompare(nameB);
+                    case 'price-low':
+                        return parseFloat(a.getAttribute('data-price')) - parseFloat(b.getAttribute('data-price'));
+                    case 'price-high':
+                        return parseFloat(b.getAttribute('data-price')) - parseFloat(a.getAttribute('data-price'));
+                    default:
+                        return 0;
+                }
+            });
+            
+            products.forEach(product => grid.appendChild(product));
+        }
+    </script>
+}

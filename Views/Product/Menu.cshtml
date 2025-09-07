@@ -1,0 +1,193 @@
+@model IEnumerable<BubbleTeaCafe.Models.Category>
+
+@{
+    ViewData["Title"] = "Thực Đơn";
+}
+
+<div class="category-header">
+    <div class="container text-center">
+        <h1 class="display-4 mb-3">
+            <i class="fas fa-utensils me-3"></i>Thực Đơn
+        </h1>
+        <p class="lead">Khám phá những hương vị tuyệt vời từ trà sữa đến cà phê thơm ngon</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    @foreach (var category in Model)
+    {
+        <div class="mb-5">
+            <div class="row mb-4">
+                <div class="col">
+                    <h2 class="h3 mb-2">
+                        @switch (category.Name)
+                        {
+                            case "Trà Sữa":
+                                <i class="fas fa-coffee text-primary me-2"></i>
+                                break;
+                            case "Cà Phê":
+                                <i class="fas fa-mug-hot text-warning me-2"></i>
+                                break;
+                            case "Trà Trái Cây":
+                                <i class="fas fa-glass-whiskey text-success me-2"></i>
+                                break;
+                            case "Smoothie":
+                                <i class="fas fa-blender text-info me-2"></i>
+                                break;
+                            default:
+                                <i class="fas fa-star text-secondary me-2"></i>
+                                break;
+                        }
+                        @category.Name
+                    </h2>
+                    <p class="text-muted">@category.Description</p>
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                @foreach (var product in category.Products.Where(p => p.IsAvailable))
+                {
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card product-card h-100">
+                            <div class="row g-0 h-100">
+                                <div class="col-4">
+                                    @if (!string.IsNullOrEmpty(product.ImageUrl))
+                                    {
+                                        <img src="@product.ImageUrl" alt="@product.Name" class="w-100 h-100" style="object-fit: cover; border-radius: 8px 0 0 8px;" />
+                                    }
+                                    else
+                                    {
+                                        <div class="product-image-placeholder bg-light d-flex align-items-center justify-content-center h-100">
+                                            @switch (category.Name)
+                                            {
+                                                case "Trà Sữa":
+                                                    <i class="fas fa-coffee fa-2x text-primary"></i>
+                                                    break;
+                                                case "Cà Phê":
+                                                    <i class="fas fa-mug-hot fa-2x text-warning"></i>
+                                                    break;
+                                                case "Trà Trái Cây":
+                                                    <i class="fas fa-glass-whiskey fa-2x text-success"></i>
+                                                    break;
+                                                case "Smoothie":
+                                                    <i class="fas fa-blender fa-2x text-info"></i>
+                                                    break;
+                                                default:
+                                                    <i class="fas fa-image fa-2x text-muted"></i>
+                                                    break;
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body d-flex flex-column h-100">
+                                        <h6 class="card-title mb-2">@product.Name</h6>
+                                        <p class="card-text text-muted small flex-grow-1">@product.Description</p>
+                                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                                            <div class="price-tag">@product.Price.ToString("N0")đ</div>
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="@Url.Action("Details", "Product", new { id = product.ProductId })" 
+                                                   class="btn btn-outline-primary btn-sm">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-primary btn-sm" 
+                                                        onclick="quickAddToCart(@product.ProductId, '@product.Name', @product.Price)">
+                                                    <i class="fas fa-cart-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @if (!category.Products.Any(p => p.IsAvailable))
+            {
+                <div class="text-center py-4">
+                    <i class="fas fa-exclamation-circle fa-2x text-muted mb-2"></i>
+                    <p class="text-muted">Hiện tại chưa có sản phẩm nào trong danh mục này</p>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<!-- Quick Order Modal -->
+<div class="modal fade" id="quickOrderModal" tabindex="-1" aria-labelledby="quickOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="quickOrderModalLabel">Thêm vào giỏ hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="quickOrderForm" method="post" action="@Url.Action("AddToCart", "Cart")">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="modalProductId" name="ProductId" />
+                    
+                    <div class="mb-3">
+                        <label for="modalQuantity" class="form-label">Số lượng</label>
+                        <input type="number" class="form-control" id="modalQuantity" name="Quantity" value="1" min="1" max="99">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="modalSize" class="form-label">Kích thước</label>
+                        <select class="form-select" id="modalSize" name="Size">
+                            <option value="M">Size M</option>
+                            <option value="L">Size L</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="modalTemperature" class="form-label">Nhiệt độ</label>
+                        <select class="form-select" id="modalTemperature" name="Temperature">
+                            <option value="Cold">Lạnh</option>
+                            <option value="Hot">Nóng</option>
+                            <option value="Iced">Đá</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="modalSweetness" class="form-label">Độ ngọt</label>
+                        <select class="form-select" id="modalSweetness" name="Sweetness">
+                            <option value="0%">0% (Không đường)</option>
+                            <option value="25%">25%</option>
+                            <option value="50%" selected>50%</option>
+                            <option value="75%">75%</option>
+                            <option value="100%">100%</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="modalSpecialInstructions" class="form-label">Ghi chú đặc biệt</label>
+                        <textarea class="form-control" id="modalSpecialInstructions" name="SpecialInstructions" rows="2" placeholder="Ví dụ: Ít đá, nhiều trân châu..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="submitQuickOrder()">Thêm vào giỏ hàng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function quickAddToCart(productId, productName, price) {
+            document.getElementById('modalProductId').value = productId;
+            document.getElementById('quickOrderModalLabel').textContent = 'Thêm ' + productName + ' vào giỏ hàng';
+            
+            const modal = new bootstrap.Modal(document.getElementById('quickOrderModal'));
+            modal.show();
+        }
+
+        function submitQuickOrder() {
+            document.getElementById('quickOrderForm').submit();
+        }
+    </script>
+}

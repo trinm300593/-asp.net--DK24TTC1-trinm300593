@@ -1,0 +1,319 @@
+@{
+    ViewData["Title"] = "Quản Lý Đơn Hàng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3 mb-0">
+                    <i class="fas fa-shopping-cart me-2 text-primary"></i>Quản Lý Đơn Hàng
+                </h1>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-primary" onclick="refreshOrders()">
+                        <i class="fas fa-sync-alt me-2"></i>Làm Mới
+                    </button>
+                    <button class="btn btn-success" onclick="exportOrders()">
+                        <i class="fas fa-download me-2"></i>Xuất Excel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-0">24</h4>
+                                    <p class="mb-0">Đơn Hôm Nay</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-calendar-day fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-0">18</h4>
+                                    <p class="mb-0">Đã Hoàn Thành</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-check-circle fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-0">6</h4>
+                                    <p class="mb-0">Đang Xử Lý</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-clock fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-0">2.4M</h4>
+                                    <p class="mb-0">Doanh Thu Hôm Nay</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-money-bill-wave fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter and Search -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Tìm theo mã đơn hàng..." id="orderSearch">
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-select" id="statusFilter">
+                                <option value="">Tất cả trạng thái</option>
+                                <option value="pending">Chờ xử lý</option>
+                                <option value="processing">Đang xử lý</option>
+                                <option value="completed">Hoàn thành</option>
+                                <option value="cancelled">Đã hủy</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="date" class="form-control" id="dateFrom">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="date" class="form-control" id="dateTo">
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary" onclick="applyFilters()">
+                                    <i class="fas fa-search me-1"></i>Tìm Kiếm
+                                </button>
+                                <button class="btn btn-outline-secondary" onclick="resetFilters()">
+                                    <i class="fas fa-redo me-1"></i>Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Danh Sách Đơn Hàng</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Mã Đơn</th>
+                                    <th>Khách Hàng</th>
+                                    <th>Sản Phẩm</th>
+                                    <th>Tổng Tiền</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Thời Gian</th>
+                                    <th>Thao Tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Sample Data -->
+                                <tr>
+                                    <td><strong>#ORD001</strong></td>
+                                    <td>
+                                        <div>
+                                            <strong>Nguyễn Văn A</strong>
+                                            <br><small class="text-muted">0123456789</small>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <small>
+                                            2x Trà Sữa Truyền Thống<br>
+                                            1x Cà Phê Sữa Đá
+                                        </small>
+                                    </td>
+                                    <td><strong>100.000đ</strong></td>
+                                    <td><span class="badge bg-warning">Đang xử lý</span></td>
+                                    <td>
+                                        <div>
+                                            <small>15/07/2025</small>
+                                            <br><small class="text-muted">14:30</small>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-sm btn-outline-info" onclick="viewOrder('ORD001')" title="Xem chi tiết">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-success" onclick="updateStatus('ORD001', 'completed')" title="Hoàn thành">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="cancelOrder('ORD001')" title="Hủy đơn">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>#ORD002</strong></td>
+                                    <td>
+                                        <div>
+                                            <strong>Trần Thị B</strong>
+                                            <br><small class="text-muted">0987654321</small>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <small>
+                                            1x Trà Đào<br>
+                                            1x Sinh Tố Xoài
+                                        </small>
+                                    </td>
+                                    <td><strong>74.000đ</strong></td>
+                                    <td><span class="badge bg-success">Hoàn thành</span></td>
+                                    <td>
+                                        <div>
+                                            <small>15/07/2025</small>
+                                            <br><small class="text-muted">13:15</small>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-sm btn-outline-info" onclick="viewOrder('ORD002')" title="Xem chi tiết">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="printReceipt('ORD002')" title="In hóa đơn">
+                                                <i class="fas fa-print"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>#ORD003</strong></td>
+                                    <td>
+                                        <div>
+                                            <strong>Lê Văn C</strong>
+                                            <br><small class="text-muted">0369852147</small>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <small>
+                                            3x Trà Sữa Truyền Thống
+                                        </small>
+                                    </td>
+                                    <td><strong>105.000đ</strong></td>
+                                    <td><span class="badge bg-primary">Chờ xử lý</span></td>
+                                    <td>
+                                        <div>
+                                            <small>15/07/2025</small>
+                                            <br><small class="text-muted">15:45</small>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-sm btn-outline-info" onclick="viewOrder('ORD003')" title="Xem chi tiết">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-warning" onclick="updateStatus('ORD003', 'processing')" title="Bắt đầu xử lý">
+                                                <i class="fas fa-play"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="cancelOrder('ORD003')" title="Hủy đơn">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Trước</a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link" href="#">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Sau</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function viewOrder(orderId) {
+            alert('Xem chi tiết đơn hàng: ' + orderId);
+        }
+
+        function updateStatus(orderId, status) {
+            if (confirm('Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?')) {
+                alert('Cập nhật trạng thái đơn hàng ' + orderId + ' thành ' + status);
+            }
+        }
+
+        function cancelOrder(orderId) {
+            if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+                alert('Hủy đơn hàng: ' + orderId);
+            }
+        }
+
+        function printReceipt(orderId) {
+            alert('In hóa đơn cho đơn hàng: ' + orderId);
+        }
+
+        function refreshOrders() {
+            location.reload();
+        }
+
+        function exportOrders() {
+            alert('Xuất danh sách đơn hàng ra Excel');
+        }
+
+        function applyFilters() {
+            alert('Áp dụng bộ lọc');
+        }
+
+        function resetFilters() {
+            document.getElementById('orderSearch').value = '';
+            document.getElementById('statusFilter').value = '';
+            document.getElementById('dateFrom').value = '';
+            document.getElementById('dateTo').value = '';
+        }
+    </script>
+}

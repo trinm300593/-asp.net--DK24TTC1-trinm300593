@@ -1,0 +1,242 @@
+﻿@{
+    ViewData["Title"] = "Trang Chủ";
+}
+
+<!-- Hero Section -->
+<div class="hero-section position-relative">
+    <div class="hero-background"></div>
+    <div class="hero-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    <div class="container position-relative">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-7 fade-in">
+                <div class="hero-content">
+                    <h1 class="display-2 fw-bold mb-4 text-shadow hero-title">Bubble Tea & Coffee Shop</h1>
+                    <p class="lead mb-5 text-shadow hero-subtitle">Thưởng thức những ly trà sữa và cà phê tuyệt vời nhất với nguyên liệu tươi ngon và công thức độc quyền!</p>
+                    <div class="d-flex gap-4 flex-wrap hero-buttons">
+                        <a href="@Url.Action("Menu", "Product")" class="btn btn-primary btn-lg pulse-animation">
+                            <i class="fas fa-list me-2"></i>Xem Thực Đơn
+                        </a>
+                        <a href="@Url.Action("About", "Home")" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-info-circle me-2"></i>Tìm Hiểu Thêm
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 text-center fade-in">
+                <div class="hero-icon-container">
+                    <i class="fas fa-mug-hot hero-icon"></i>
+                    <div class="floating-elements">
+                        <div class="floating-element">☕</div>
+                        <div class="floating-element">🧋</div>
+                        <div class="floating-element">🍓</div>
+                        <div class="floating-element">🥭</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container py-5">
+    <div class="row text-center mb-5">
+        <div class="col-lg-8 mx-auto">
+            <h2 class="display-4 mb-4">Tại Sao Chọn Chúng Tôi?</h2>
+            <p class="lead text-muted fs-5">Những điều đặc biệt làm nên thương hiệu của chúng tôi</p>
+        </div>
+    </div>
+
+    <div class="row g-5">
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-lg feature-card">
+                <div class="card-body text-center p-5">
+                    <div class="feature-icon mb-4">
+                        <i class="fas fa-leaf fa-4x text-success"></i>
+                    </div>
+                    <h4 class="mb-3">Nguyên Liệu Tươi Ngon</h4>
+                    <p class="text-muted fs-6">Chúng tôi chỉ sử dụng những nguyên liệu tươi ngon nhất, được chọn lọc kỹ càng để đảm bảo chất lượng tốt nhất.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 border-0 shadow-lg feature-card">
+                <div class="card-body text-center p-5">
+                    <div class="feature-icon mb-4">
+                        <i class="fas fa-magic fa-4x text-primary"></i>
+                    </div>
+                    <h4 class="mb-3">Công Thức Độc Quyền</h4>
+                    <p class="text-muted fs-6">Mỗi ly đồ uống được pha chế theo công thức riêng biệt, mang đến hương vị độc đáo không thể tìm thấy ở nơi khác.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mx-auto">
+            <div class="card h-100 border-0 shadow-lg feature-card">
+                <div class="card-body text-center p-5">
+                    <div class="feature-icon mb-4">
+                        <i class="fas fa-heart fa-4x text-danger"></i>
+                    </div>
+                    <h4 class="mb-3">Phục Vụ Tận Tâm</h4>
+                    <p class="text-muted fs-6">Đội ngũ nhân viên thân thiện, nhiệt tình luôn sẵn sàng phục vụ và mang đến trải nghiệm tuyệt vời nhất.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popular Products Section -->
+<div class="bg-light py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col">
+                <h2 class="display-5 mb-3">Sản Phẩm Nổi Bật</h2>
+                <p class="lead text-muted">Những món đồ uống được yêu thích nhất</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="card product-card h-100 overflow-hidden">
+                    <div class="product-image-container">
+                        <img src="https://images.unsplash.com/photo-1525385133512-2f3bdd039054?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Trà Sữa Truyền Thống" class="card-img-top product-image">
+                        <div class="product-overlay">
+                            <div class="price-badge">35.000đ</div>
+                        </div>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Trà Sữa Truyền Thống</h5>
+                        <p class="text-muted">Trà sữa đậm đà với trân châu đen</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card product-card h-100 overflow-hidden">
+                    <div class="product-image-container">
+                        <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Cà Phê Sữa Đá" class="card-img-top product-image">
+                        <div class="product-overlay">
+                            <div class="price-badge">30.000đ</div>
+                        </div>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Cà Phê Sữa Đá</h5>
+                        <p class="text-muted">Cà phê sữa đá đậm đà</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card product-card h-100 overflow-hidden">
+                    <div class="product-image-container">
+                        <img src="https://images.unsplash.com/photo-1571934811356-5cc061b6821f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Trà Đào" class="card-img-top product-image">
+                        <div class="product-overlay">
+                            <div class="price-badge">32.000đ</div>
+                        </div>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Trà Đào</h5>
+                        <p class="text-muted">Trà đào tươi mát</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card product-card h-100 overflow-hidden">
+                    <div class="product-image-container">
+                        <img src="https://images.unsplash.com/photo-1546173159-315724a31696?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Sinh Tố Xoài" class="card-img-top product-image">
+                        <div class="product-overlay">
+                            <div class="price-badge">42.000đ</div>
+                        </div>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Sinh Tố Xoài</h5>
+                        <p class="text-muted">Sinh tố xoài tươi ngon</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="@Url.Action("Menu", "Product")" class="btn btn-primary btn-lg">
+                <i class="fas fa-arrow-right me-2"></i>Xem Tất Cả Sản Phẩm
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Gallery Section -->
+<div class="container-fluid py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col">
+                <h2 class="display-5 mb-3">Không Gian Quán</h2>
+                <p class="lead text-muted">Khám phá không gian ấm cúng và hiện đại của chúng tôi</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-6 col-md-12">
+                <div class="gallery-item gallery-main">
+                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Không gian quán" class="img-fluid rounded">
+                    <div class="gallery-overlay">
+                        <h4>Không Gian Chính</h4>
+                        <p>Không gian ấm cúng và hiện đại</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="gallery-item gallery-sub mb-4">
+                    <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Quầy pha chế" class="img-fluid rounded">
+                    <div class="gallery-overlay">
+                        <h5>Quầy Pha Chế</h5>
+                        <p>Nơi tạo ra những ly đồ uống tuyệt vời</p>
+                    </div>
+                </div>
+                <div class="gallery-item gallery-sub">
+                    <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Góc ngồi" class="img-fluid rounded">
+                    <div class="gallery-overlay">
+                        <h5>Góc Thư Giãn</h5>
+                        <p>Không gian yên tĩnh để thư giãn</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="gallery-item gallery-sub mb-4">
+                    <img src="https://images.unsplash.com/photo-1442975631115-c4f7b05b8a2c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Khu vực ngoài trời" class="img-fluid rounded">
+                    <div class="gallery-overlay">
+                        <h5>Khu Vực Ngoài Trời</h5>
+                        <p>Tận hưởng không khí trong lành</p>
+                    </div>
+                </div>
+                <div class="gallery-item gallery-sub">
+                    <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Bàn làm việc" class="img-fluid rounded">
+                    <div class="gallery-overlay">
+                        <h5>Không Gian Làm Việc</h5>
+                        <p>Lý tưởng cho công việc và học tập</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action Section -->
+<div class="cta-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto text-center">
+                <h2 class="display-3 mb-4 text-white">Sẵn Sàng Thưởng Thức?</h2>
+                <p class="lead mb-5 text-white fs-4">Hãy đến và trải nghiệm những ly đồ uống tuyệt vời tại cửa hàng của chúng tôi ngay hôm nay!</p>
+                <div class="d-flex justify-content-center gap-4 flex-wrap">
+                    <a href="@Url.Action("Contact", "Home")" class="btn btn-outline-light btn-lg cta-btn">
+                        <i class="fas fa-map-marker-alt me-2"></i>Tìm Cửa Hàng
+                    </a>
+                    <a href="@Url.Action("Menu", "Product")" class="btn btn-light btn-lg cta-btn">
+                        <i class="fas fa-shopping-cart me-2"></i>Đặt Hàng Ngay
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

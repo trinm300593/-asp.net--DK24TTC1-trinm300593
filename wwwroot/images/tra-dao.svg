@@ -1,0 +1,68 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="fruitTeaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E91E63;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FF5722;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFC107;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="fruitHighlight" cx="30%" cy="30%" r="40%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0.3);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="400" fill="url(#fruitTeaGrad)" rx="20"/>
+  
+  <!-- Cup shadow -->
+  <ellipse cx="200" cy="330" rx="75" ry="15" fill="#B71C1C" opacity="0.3"/>
+  
+  <!-- Glass -->
+  <rect x="145" y="180" width="110" height="150" fill="rgba(255,255,255,0.1)" rx="10"/>
+  <rect x="150" y="185" width="100" height="140" fill="rgba(255,255,255,0.05)" rx="8"/>
+  
+  <!-- Tea -->
+  <rect x="155" y="190" width="90" height="130" fill="#FFB74D" rx="6"/>
+  
+  <!-- Peach slices -->
+  <ellipse cx="180" cy="220" rx="12" ry="8" fill="#FFCC80"/>
+  <ellipse cx="220" cy="240" rx="12" ry="8" fill="#FFCC80"/>
+  <ellipse cx="190" cy="260" rx="12" ry="8" fill="#FFCC80"/>
+  <ellipse cx="210" cy="280" rx="12" ry="8" fill="#FFCC80"/>
+  
+  <!-- Peach details -->
+  <path d="M 175 220 Q 180 215 185 220" stroke="#FF8A65" stroke-width="1" fill="none"/>
+  <path d="M 215 240 Q 220 235 225 240" stroke="#FF8A65" stroke-width="1" fill="none"/>
+  <path d="M 185 260 Q 190 255 195 260" stroke="#FF8A65" stroke-width="1" fill="none"/>
+  <path d="M 205 280 Q 210 275 215 280" stroke="#FF8A65" stroke-width="1" fill="none"/>
+  
+  <!-- Ice cubes -->
+  <rect x="170" y="200" width="12" height="12" fill="rgba(255,255,255,0.8)" rx="2"/>
+  <rect x="210" y="210" width="12" height="12" fill="rgba(255,255,255,0.8)" rx="2"/>
+  <rect x="185" y="240" width="12" height="12" fill="rgba(255,255,255,0.8)" rx="2"/>
+  <rect x="220" y="260" width="12" height="12" fill="rgba(255,255,255,0.8)" rx="2"/>
+  
+  <!-- Straw -->
+  <rect x="195" y="120" width="8" height="90" fill="#E91E63" rx="4"/>
+  <ellipse cx="199" cy="115" rx="12" ry="6" fill="#E91E63"/>
+  
+  <!-- Glass rim -->
+  <ellipse cx="200" cy="180" rx="55" ry="6" fill="rgba(255,255,255,0.3)"/>
+  
+  <!-- Highlight -->
+  <ellipse cx="175" cy="220" rx="25" ry="60" fill="url(#fruitHighlight)"/>
+  
+  <!-- Bubbles -->
+  <circle cx="165" cy="210" r="3" fill="rgba(255,255,255,0.6)"/>
+  <circle cx="235" cy="230" r="3" fill="rgba(255,255,255,0.6)"/>
+  <circle cx="175" cy="290" r="3" fill="rgba(255,255,255,0.6)"/>
+  <circle cx="225" cy="300" r="3" fill="rgba(255,255,255,0.6)"/>
+  
+  <!-- Text -->
+  <text x="200" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="white">Trà Đào</text>
+  <text x="200" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="white" opacity="0.9">Peach Tea</text>
+  
+  <!-- Price tag -->
+  <rect x="320" y="20" width="70" height="30" fill="rgba(255,255,255,0.9)" rx="15"/>
+  <text x="355" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">32.000đ</text>
+</svg>

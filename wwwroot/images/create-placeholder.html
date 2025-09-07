@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Product Images</title>
+    <style>
+        .image-container {
+            width: 300px;
+            height: 300px;
+            display: inline-block;
+            margin: 10px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .bubble-tea {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #F4A460 100%);
+        }
+        
+        .coffee {
+            background: linear-gradient(135deg, #3E2723 0%, #5D4037 50%, #8D6E63 100%);
+        }
+        
+        .fruit-tea {
+            background: linear-gradient(135deg, #E91E63 0%, #FF5722 50%, #FFC107 100%);
+        }
+        
+        .smoothie {
+            background: linear-gradient(135deg, #9C27B0 0%, #E91E63 50%, #FF9800 100%);
+        }
+        
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <h1>Product Images for Bubble Tea & Coffee Shop</h1>
+    
+    <!-- Bubble Tea Images -->
+    <div class="image-container bubble-tea" id="tra-sua-truyen-thong">
+        <div class="content">
+            <div class="icon">🧋</div>
+            <div class="title">Trà Sữa Truyền Thống</div>
+            <div class="subtitle">Classic Bubble Tea</div>
+        </div>
+    </div>
+    
+    <div class="image-container bubble-tea" id="tra-sua-matcha">
+        <div class="content">
+            <div class="icon">🍵</div>
+            <div class="title">Trà Sữa Matcha</div>
+            <div class="subtitle">Matcha Bubble Tea</div>
+        </div>
+    </div>
+    
+    <div class="image-container bubble-tea" id="tra-sua-taro">
+        <div class="content">
+            <div class="icon">🟣</div>
+            <div class="title">Trà Sữa Taro</div>
+            <div class="subtitle">Taro Bubble Tea</div>
+        </div>
+    </div>
+    
+    <!-- Coffee Images -->
+    <div class="image-container coffee" id="ca-phe-den-da">
+        <div class="content">
+            <div class="icon">☕</div>
+            <div class="title">Cà Phê Đen Đá</div>
+            <div class="subtitle">Iced Black Coffee</div>
+        </div>
+    </div>
+    
+    <div class="image-container coffee" id="ca-phe-sua-da">
+        <div class="content">
+            <div class="icon">🥛</div>
+            <div class="title">Cà Phê Sữa Đá</div>
+            <div class="subtitle">Iced Milk Coffee</div>
+        </div>
+    </div>
+    
+    <div class="image-container coffee" id="cappuccino">
+        <div class="content">
+            <div class="icon">☕</div>
+            <div class="title">Cappuccino</div>
+            <div class="subtitle">Italian Style</div>
+        </div>
+    </div>
+    
+    <!-- Fruit Tea Images -->
+    <div class="image-container fruit-tea" id="tra-dao">
+        <div class="content">
+            <div class="icon">🍑</div>
+            <div class="title">Trà Đào</div>
+            <div class="subtitle">Peach Tea</div>
+        </div>
+    </div>
+    
+    <div class="image-container fruit-tea" id="tra-chanh">
+        <div class="content">
+            <div class="icon">🍋</div>
+            <div class="title">Trà Chanh</div>
+            <div class="subtitle">Lemon Tea</div>
+        </div>
+    </div>
+    
+    <!-- Smoothie Images -->
+    <div class="image-container smoothie" id="sinh-to-xoai">
+        <div class="content">
+            <div class="icon">🥭</div>
+            <div class="title">Sinh Tố Xoài</div>
+            <div class="subtitle">Mango Smoothie</div>
+        </div>
+    </div>
+    
+    <div class="image-container smoothie" id="sinh-to-dau">
+        <div class="content">
+            <div class="icon">🍓</div>
+            <div class="title">Sinh Tố Dâu</div>
+            <div class="subtitle">Strawberry Smoothie</div>
+        </div>
+    </div>
+    
+    <script>
+        // This script can be used to convert these divs to images
+        // You would need to use html2canvas or similar library
+        console.log('Product image placeholders created');
+    </script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Hình Ảnh Sản Phẩm</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .product-image {
+            width: 300px;
+            height: 300px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+        
+        .icon {
+            font-size: 80px;
+            margin-bottom: 15px;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+        }
+        
+        .title {
+            font-size: 24px;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .price {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        /* Bubble Tea */
+        .bubble-tea {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #F4A460 100%);
+        }
+        
+        /* Coffee */
+        .coffee {
+            background: linear-gradient(135deg, #3E2723 0%, #5D4037 50%, #8D6E63 100%);
+        }
+        
+        /* Fruit Tea */
+        .fruit-tea {
+            background: linear-gradient(135deg, #E91E63 0%, #FF5722 50%, #FFC107 100%);
+        }
+        
+        /* Smoothie */
+        .smoothie {
+            background: linear-gradient(135deg, #9C27B0 0%, #E91E63 50%, #FF9800 100%);
+        }
+        
+        .download-section {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .download-btn {
+            background: white;
+            color: #667eea;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .hero-bg {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="60" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="60" cy="40" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧋 Hình Ảnh Sản Phẩm Bubble Tea & Coffee Shop</h1>
+        
+        <div class="hero-bg" id="hero-bg">
+            <div style="position: relative; z-index: 1;">
+                ☕ Bubble Tea & Coffee Shop 🧋
+            </div>
+        </div>
+        
+        <div class="image-grid">
+            <!-- Trà Sữa -->
+            <div class="product-image bubble-tea" id="tra-sua-truyen-thong">
+                <div class="price">35.000đ</div>
+                <div class="icon">🧋</div>
+                <div class="title">Trà Sữa Truyền Thống</div>
+                <div class="subtitle">Classic Bubble Tea</div>
+            </div>
+            
+            <div class="product-image bubble-tea" id="tra-sua-matcha">
+                <div class="price">40.000đ</div>
+                <div class="icon">🍵</div>
+                <div class="title">Trà Sữa Matcha</div>
+                <div class="subtitle">Matcha Bubble Tea</div>
+            </div>
+            
+            <div class="product-image bubble-tea" id="tra-sua-taro">
+                <div class="price">38.000đ</div>
+                <div class="icon">🟣</div>
+                <div class="title">Trà Sữa Taro</div>
+                <div class="subtitle">Taro Bubble Tea</div>
+            </div>
+            
+            <!-- Cà Phê -->
+            <div class="product-image coffee" id="ca-phe-den-da">
+                <div class="price">25.000đ</div>
+                <div class="icon">☕</div>
+                <div class="title">Cà Phê Đen Đá</div>
+                <div class="subtitle">Iced Black Coffee</div>
+            </div>
+            
+            <div class="product-image coffee" id="ca-phe-sua-da">
+                <div class="price">30.000đ</div>
+                <div class="icon">🥛</div>
+                <div class="title">Cà Phê Sữa Đá</div>
+                <div class="subtitle">Iced Milk Coffee</div>
+            </div>
+            
+            <div class="product-image coffee" id="cappuccino">
+                <div class="price">45.000đ</div>
+                <div class="icon">☕</div>
+                <div class="title">Cappuccino</div>
+                <div class="subtitle">Italian Style</div>
+            </div>
+            
+            <!-- Trà Trái Cây -->
+            <div class="product-image fruit-tea" id="tra-dao">
+                <div class="price">32.000đ</div>
+                <div class="icon">🍑</div>
+                <div class="title">Trà Đào</div>
+                <div class="subtitle">Peach Tea</div>
+            </div>
+            
+            <div class="product-image fruit-tea" id="tra-chanh">
+                <div class="price">28.000đ</div>
+                <div class="icon">🍋</div>
+                <div class="title">Trà Chanh</div>
+                <div class="subtitle">Lemon Tea</div>
+            </div>
+            
+            <!-- Smoothie -->
+            <div class="product-image smoothie" id="sinh-to-xoai">
+                <div class="price">42.000đ</div>
+                <div class="icon">🥭</div>
+                <div class="title">Sinh Tố Xoài</div>
+                <div class="subtitle">Mango Smoothie</div>
+            </div>
+            
+            <div class="product-image smoothie" id="sinh-to-dau">
+                <div class="price">45.000đ</div>
+                <div class="icon">🍓</div>
+                <div class="title">Sinh Tố Dâu</div>
+                <div class="subtitle">Strawberry Smoothie</div>
+            </div>
+        </div>
+        
+        <div class="download-section">
+            <button class="download-btn" onclick="downloadAllImages()">📥 Tải Tất Cả Hình Ảnh</button>
+            <button class="download-btn" onclick="downloadHeroImage()">🖼️ Tải Hình Nền</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        async function downloadImage(elementId, filename) {
+            const element = document.getElementById(elementId);
+            const canvas = await html2canvas(element, {
+                backgroundColor: null,
+                scale: 2,
+                width: 400,
+                height: 400
+            });
+            
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        async function downloadAllImages() {
+            const images = [
+                { id: 'tra-sua-truyen-thong', name: 'tra-sua-truyen-thong.png' },
+                { id: 'tra-sua-matcha', name: 'tra-sua-matcha.png' },
+                { id: 'tra-sua-taro', name: 'tra-sua-taro.png' },
+                { id: 'ca-phe-den-da', name: 'ca-phe-den-da.png' },
+                { id: 'ca-phe-sua-da', name: 'ca-phe-sua-da.png' },
+                { id: 'cappuccino', name: 'cappuccino.png' },
+                { id: 'tra-dao', name: 'tra-dao.png' },
+                { id: 'tra-chanh', name: 'tra-chanh.png' },
+                { id: 'sinh-to-xoai', name: 'sinh-to-xoai.png' },
+                { id: 'sinh-to-dau', name: 'sinh-to-dau.png' }
+            ];
+            
+            for (let i = 0; i < images.length; i++) {
+                await new Promise(resolve => setTimeout(resolve, 500)); // Delay between downloads
+                await downloadImage(images[i].id, images[i].name);
+            }
+        }
+        
+        async function downloadHeroImage() {
+            await downloadImage('hero-bg', 'hero-background.png');
+        }
+        
+        // Add click to download individual images
+        document.querySelectorAll('.product-image').forEach(img => {
+            img.addEventListener('click', function() {
+                const filename = this.id + '.png';
+                downloadImage(this.id, filename);
+            });
+        });
+    </script>
+</body>
+</html>

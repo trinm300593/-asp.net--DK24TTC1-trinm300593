@@ -1,0 +1,419 @@
+@{
+    ViewData["Title"] = "Báo Cáo & Thống Kê";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Filter Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="admin-card">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-filter me-2"></i>Bộ Lọc Báo Cáo
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Loại báo cáo</label>
+                        <select class="form-select" id="reportType">
+                            <option value="revenue">Doanh thu</option>
+                            <option value="products">Sản phẩm</option>
+                            <option value="customers">Khách hàng</option>
+                            <option value="orders">Đơn hàng</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Khoảng thời gian</label>
+                        <select class="form-select" id="timePeriod">
+                            <option value="today">Hôm nay</option>
+                            <option value="week">7 ngày qua</option>
+                            <option value="month" selected>30 ngày qua</option>
+                            <option value="quarter">3 tháng qua</option>
+                            <option value="year">12 tháng qua</option>
+                            <option value="custom">Tùy chọn</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Từ ngày</label>
+                        <input type="date" class="form-control" id="fromDate">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Đến ngày</label>
+                        <input type="date" class="form-control" id="toDate">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">&nbsp;</label>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary" onclick="generateReport()">
+                                <i class="fas fa-chart-line me-1"></i>Tạo báo cáo
+                            </button>
+                            <button class="btn btn-success" onclick="exportReport()">
+                                <i class="fas fa-download me-1"></i>Xuất
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Summary Cards -->
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="stats-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="text-primary mb-1">2.4M</h3>
+                    <p class="text-muted mb-0">Doanh Thu (30 ngày)</p>
+                </div>
+                <div class="text-primary">
+                    <i class="fas fa-money-bill-wave fa-2x"></i>
+                </div>
+            </div>
+            <div class="mt-3">
+                <small class="text-success">
+                    <i class="fas fa-arrow-up me-1"></i>15% so với tháng trước
+                </small>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="stats-card" style="border-left-color: var(--admin-success);">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="text-success mb-1">1,247</h3>
+                    <p class="text-muted mb-0">Đơn Hàng (30 ngày)</p>
+                </div>
+                <div class="text-success">
+                    <i class="fas fa-shopping-cart fa-2x"></i>
+                </div>
+            </div>
+            <div class="mt-3">
+                <small class="text-success">
+                    <i class="fas fa-arrow-up me-1"></i>8% so với tháng trước
+                </small>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="stats-card" style="border-left-color: var(--admin-warning);">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="text-warning mb-1">89</h3>
+                    <p class="text-muted mb-0">Khách Hàng Mới</p>
+                </div>
+                <div class="text-warning">
+                    <i class="fas fa-user-plus fa-2x"></i>
+                </div>
+            </div>
+            <div class="mt-3">
+                <small class="text-success">
+                    <i class="fas fa-arrow-up me-1"></i>22% so với tháng trước
+                </small>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="stats-card" style="border-left-color: var(--admin-info);">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="text-info mb-1">1,925</h3>
+                    <p class="text-muted mb-0">Giá Trị Trung Bình</p>
+                </div>
+                <div class="text-info">
+                    <i class="fas fa-calculator fa-2x"></i>
+                </div>
+            </div>
+            <div class="mt-3">
+                <small class="text-success">
+                    <i class="fas fa-arrow-up me-1"></i>5% so với tháng trước
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row mb-4">
+    <div class="col-lg-8 mb-4">
+        <div class="admin-card">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-line me-2"></i>Biểu Đồ Doanh Thu
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="revenueChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4 mb-4">
+        <div class="admin-card">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-pie me-2"></i>Phân Bố Doanh Thu
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="categoryRevenueChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Data Tables Row -->
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="admin-card">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-trophy me-2"></i>Top Sản Phẩm Bán Chạy
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Hạng</th>
+                                <th>Sản Phẩm</th>
+                                <th>Đã Bán</th>
+                                <th>Doanh Thu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge bg-warning">1</span></td>
+                                <td>Trà Sữa Truyền Thống</td>
+                                <td>127</td>
+                                <td><strong>4.445.000đ</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-secondary">2</span></td>
+                                <td>Cà Phê Sữa Đá</td>
+                                <td>98</td>
+                                <td><strong>2.940.000đ</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-secondary">3</span></td>
+                                <td>Trà Đào</td>
+                                <td>76</td>
+                                <td><strong>2.432.000đ</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-secondary">4</span></td>
+                                <td>Sinh Tố Xoài</td>
+                                <td>54</td>
+                                <td><strong>2.268.000đ</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-secondary">5</span></td>
+                                <td>Cà Phê Đen</td>
+                                <td>43</td>
+                                <td><strong>1.075.000đ</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6 mb-4">
+        <div class="admin-card">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-clock me-2"></i>Thống Kê Theo Giờ
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="hourlyChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Export Options -->
+<div class="row">
+    <div class="col-12">
+        <div class="admin-card">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-file-export me-2"></i>Xuất Báo Cáo
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <button class="btn btn-success w-100" onclick="exportExcel()">
+                            <i class="fas fa-file-excel me-2"></i>Xuất Excel
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-danger w-100" onclick="exportPDF()">
+                            <i class="fas fa-file-pdf me-2"></i>Xuất PDF
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-info w-100" onclick="exportCSV()">
+                            <i class="fas fa-file-csv me-2"></i>Xuất CSV
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-primary w-100" onclick="scheduleReport()">
+                            <i class="fas fa-calendar-alt me-2"></i>Lập Lịch Báo Cáo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Revenue Chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        const revenueChart = new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: ['1/7', '2/7', '3/7', '4/7', '5/7', '6/7', '7/7', '8/7', '9/7', '10/7', '11/7', '12/7', '13/7', '14/7', '15/7'],
+                datasets: [{
+                    label: 'Doanh thu (VNĐ)',
+                    data: [120000, 190000, 300000, 250000, 220000, 320000, 280000, 350000, 290000, 310000, 270000, 340000, 380000, 360000, 400000],
+                    borderColor: '#2563eb',
+                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString('vi-VN') + 'đ';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Category Revenue Chart
+        const categoryCtx = document.getElementById('categoryRevenueChart').getContext('2d');
+        const categoryChart = new Chart(categoryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Trà Sữa', 'Cà Phê', 'Trà Trái Cây', 'Sinh Tố'],
+                datasets: [{
+                    data: [45, 30, 20, 5],
+                    backgroundColor: ['#2563eb', '#f59e0b', '#059669', '#0891b2'],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Hourly Chart
+        const hourlyCtx = document.getElementById('hourlyChart').getContext('2d');
+        const hourlyChart = new Chart(hourlyCtx, {
+            type: 'bar',
+            data: {
+                labels: ['6h', '7h', '8h', '9h', '10h', '11h', '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h'],
+                datasets: [{
+                    label: 'Số đơn hàng',
+                    data: [2, 5, 12, 18, 25, 32, 45, 38, 42, 35, 28, 40, 48, 52, 35, 15],
+                    backgroundColor: '#059669',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        function generateReport() {
+            alert('Tạo báo cáo với các tham số đã chọn');
+        }
+
+        function exportReport() {
+            alert('Xuất báo cáo');
+        }
+
+        function exportExcel() {
+            alert('Xuất báo cáo Excel');
+        }
+
+        function exportPDF() {
+            alert('Xuất báo cáo PDF');
+        }
+
+        function exportCSV() {
+            alert('Xuất báo cáo CSV');
+        }
+
+        function scheduleReport() {
+            alert('Lập lịch báo cáo tự động');
+        }
+
+        // Auto-update date inputs based on time period selection
+        document.getElementById('timePeriod').addEventListener('change', function() {
+            const period = this.value;
+            const today = new Date();
+            const toDate = today.toISOString().split('T')[0];
+            
+            let fromDate;
+            switch(period) {
+                case 'today':
+                    fromDate = toDate;
+                    break;
+                case 'week':
+                    fromDate = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                    break;
+                case 'month':
+                    fromDate = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                    break;
+                case 'quarter':
+                    fromDate = new Date(today.getTime() - 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                    break;
+                case 'year':
+                    fromDate = new Date(today.getTime() - 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                    break;
+                default:
+                    return;
+            }
+            
+            document.getElementById('fromDate').value = fromDate;
+            document.getElementById('toDate').value = toDate;
+        });
+
+        // Initialize with default period
+        document.getElementById('timePeriod').dispatchEvent(new Event('change'));
+    </script>
+}

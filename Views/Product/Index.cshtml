@@ -1,0 +1,180 @@
+@model IEnumerable<BubbleTeaCafe.Models.Product>
+
+@{
+    ViewData["Title"] = "Tất Cả Sản Phẩm";
+}
+
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-5 mb-3">
+                <i class="fas fa-coffee me-3"></i>Tất Cả Sản Phẩm
+            </h1>
+            <p class="lead text-muted">Khám phá toàn bộ thực đơn đồ uống tuyệt vời của chúng tôi</p>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm..." id="searchInput">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex gap-2">
+                <a href="@Url.Action("Category", "Product", new { id = 1 })" class="btn btn-outline-primary">Trà Sữa</a>
+                <a href="@Url.Action("Category", "Product", new { id = 2 })" class="btn btn-outline-primary">Cà Phê</a>
+                <a href="@Url.Action("Category", "Product", new { id = 3 })" class="btn btn-outline-primary">Trà Trái Cây</a>
+                <a href="@Url.Action("Category", "Product", new { id = 4 })" class="btn btn-outline-primary">Smoothie</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4" id="productGrid">
+        @foreach (var product in Model)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 product-item" data-name="@product.Name.ToLower()" data-category="@product.Category.Name">
+                <div class="card product-card h-100">
+                    <div class="position-relative overflow-hidden">
+                        @if (!string.IsNullOrEmpty(product.ImageUrl))
+                        {
+                            <img src="@product.ImageUrl" alt="@product.Name" class="product-image w-100" />
+                        }
+                        else
+                        {
+                            <div class="product-image-placeholder d-flex align-items-center justify-content-center">
+                                @switch (product.Category.Name)
+                                {
+                                    case "Trà Sữa":
+                                        <div class="text-center">
+                                            <i class="fas fa-coffee fa-4x text-primary mb-2"></i>
+                                            <div class="small text-muted">@product.Category.Name</div>
+                                        </div>
+                                        break;
+                                    case "Cà Phê":
+                                        <div class="text-center">
+                                            <i class="fas fa-mug-hot fa-4x text-warning mb-2"></i>
+                                            <div class="small text-muted">@product.Category.Name</div>
+                                        </div>
+                                        break;
+                                    case "Trà Trái Cây":
+                                        <div class="text-center">
+                                            <i class="fas fa-glass-whiskey fa-4x text-success mb-2"></i>
+                                            <div class="small text-muted">@product.Category.Name</div>
+                                        </div>
+                                        break;
+                                    case "Smoothie":
+                                        <div class="text-center">
+                                            <i class="fas fa-blender fa-4x text-info mb-2"></i>
+                                            <div class="small text-muted">@product.Category.Name</div>
+                                        </div>
+                                        break;
+                                    default:
+                                        <div class="text-center">
+                                            <i class="fas fa-image fa-4x text-muted mb-2"></i>
+                                            <div class="small text-muted">Sản phẩm</div>
+                                        </div>
+                                        break;
+                                }
+                            </div>
+                        }
+                        @if (!product.IsAvailable)
+                        {
+                            <div class="position-absolute top-0 end-0 m-2">
+                                <span class="badge bg-danger">Hết hàng</span>
+                            </div>
+                        }
+                        <div class="position-absolute bottom-0 start-0 m-2">
+                            <span class="badge bg-primary">@product.Category.Name</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <div class="mb-2">
+                            <span class="badge bg-secondary">@product.Category.Name</span>
+                        </div>
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text text-muted flex-grow-1">@product.Description</p>
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <div class="price-tag">@product.Price.ToString("N0")đ</div>
+                            <div class="btn-group">
+                                <a href="@Url.Action("Details", "Product", new { id = product.ProductId })" 
+                                   class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                @if (product.IsAvailable)
+                                {
+                                    <button type="button" class="btn btn-primary btn-sm" 
+                                            onclick="quickAddToCart(@product.ProductId, '@product.Name', @product.Price)">
+                                        <i class="fas fa-cart-plus"></i>
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <i class="fas fa-search fa-4x text-muted mb-3"></i>
+            <h3>Không tìm thấy sản phẩm</h3>
+            <p class="text-muted">Vui lòng thử lại với từ khóa khác</p>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const products = document.querySelectorAll('.product-item');
+            
+            products.forEach(product => {
+                const productName = product.getAttribute('data-name');
+                if (productName.includes(searchTerm)) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        });
+
+        // Quick add to cart
+        function quickAddToCart(productId, productName, price) {
+            // Create a form and submit it
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '@Url.Action("AddToCart", "Cart")';
+            
+            const productIdInput = document.createElement('input');
+            productIdInput.type = 'hidden';
+            productIdInput.name = 'ProductId';
+            productIdInput.value = productId;
+            
+            const quantityInput = document.createElement('input');
+            quantityInput.type = 'hidden';
+            quantityInput.name = 'Quantity';
+            quantityInput.value = '1';
+            
+            // Add anti-forgery token
+            const token = document.querySelector('input[name="__RequestVerificationToken"]');
+            if (token) {
+                const tokenInput = document.createElement('input');
+                tokenInput.type = 'hidden';
+                tokenInput.name = '__RequestVerificationToken';
+                tokenInput.value = token.value;
+                form.appendChild(tokenInput);
+            }
+            
+            form.appendChild(productIdInput);
+            form.appendChild(quantityInput);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+}

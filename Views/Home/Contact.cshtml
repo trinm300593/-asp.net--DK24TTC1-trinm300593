@@ -1,0 +1,123 @@
+@{
+    ViewData["Title"] = "Liên Hệ";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="display-4 mb-4">Liên Hệ Với Chúng Tôi</h1>
+            <p class="lead mb-4">Chúng tôi luôn sẵn sàng lắng nghe ý kiến và phục vụ bạn tốt nhất!</p>
+            
+            <form>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">Họ và Tên *</label>
+                        <input type="text" class="form-control" id="name" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label">Email *</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="phone" class="form-label">Số Điện Thoại</label>
+                        <input type="tel" class="form-control" id="phone">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="subject" class="form-label">Chủ Đề</label>
+                        <select class="form-select" id="subject">
+                            <option value="">Chọn chủ đề</option>
+                            <option value="feedback">Góp ý</option>
+                            <option value="complaint">Khiếu nại</option>
+                            <option value="suggestion">Đề xuất</option>
+                            <option value="other">Khác</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Nội Dung *</label>
+                    <textarea class="form-control" id="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-paper-plane me-2"></i>Gửi Tin Nhắn
+                </button>
+            </form>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h4 class="mb-4">Thông Tin Liên Hệ</h4>
+                    
+                    <div class="mb-3">
+                        <h6><i class="fas fa-map-marker-alt text-primary me-2"></i>Địa Chỉ</h6>
+                        <p class="text-muted">123 Đường ABC, Phường XYZ<br>Quận 1, TP. Hồ Chí Minh</p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6><i class="fas fa-phone text-primary me-2"></i>Điện Thoại</h6>
+                        <p class="text-muted">
+                            <a href="tel:0123456789" class="text-decoration-none">0123 456 789</a><br>
+                            <a href="tel:0987654321" class="text-decoration-none">0987 654 321</a>
+                        </p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6><i class="fas fa-envelope text-primary me-2"></i>Email</h6>
+                        <p class="text-muted">
+                            <a href="mailto:info@bubbletea.com" class="text-decoration-none">info@bubbletea.com</a><br>
+                            <a href="mailto:support@bubbletea.com" class="text-decoration-none">support@bubbletea.com</a>
+                        </p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6><i class="fas fa-clock text-primary me-2"></i>Giờ Mở Cửa</h6>
+                        <p class="text-muted mb-1">Thứ 2 - Thứ 6: 7:00 - 22:00</p>
+                        <p class="text-muted mb-1">Thứ 7 - Chủ Nhật: 8:00 - 23:00</p>
+                        <p class="text-muted">Các ngày lễ: 9:00 - 21:00</p>
+                    </div>
+                    
+                    <div>
+                        <h6><i class="fas fa-share-alt text-primary me-2"></i>Mạng Xã Hội</h6>
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-outline-primary btn-sm">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-info btn-sm">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-success btn-sm">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-danger btn-sm">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-light py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Bản Đồ Cửa Hàng</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-0">
+                        <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 400px;">
+                            <div class="text-center text-white">
+                                <i class="fas fa-map fa-4x mb-3"></i>
+                                <h4>Bản Đồ Google Maps</h4>
+                                <p>Tích hợp bản đồ Google Maps tại đây</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

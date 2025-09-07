@@ -1,0 +1,210 @@
+@{
+    ViewData["Title"] = "Quản Lý Sản Phẩm";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3 mb-0">
+                    <i class="fas fa-box me-2 text-primary"></i>Quản Lý Sản Phẩm
+                </h1>
+                <a href="/Admin/AddProduct" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Thêm Sản Phẩm
+                </a>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm..." id="searchInput">
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="categoryFilter">
+                                <option value="">Tất cả danh mục</option>
+                                <option value="1">Trà Sữa</option>
+                                <option value="2">Cà Phê</option>
+                                <option value="3">Trà Trái Cây</option>
+                                <option value="4">Sinh Tố</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="statusFilter">
+                                <option value="">Tất cả trạng thái</option>
+                                <option value="true">Có sẵn</option>
+                                <option value="false">Hết hàng</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-outline-secondary w-100" onclick="resetFilters()">
+                                <i class="fas fa-redo me-1"></i>Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Danh Sách Sản Phẩm</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Hình Ảnh</th>
+                                    <th>Tên Sản Phẩm</th>
+                                    <th>Danh Mục</th>
+                                    <th>Giá</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Ngày Tạo</th>
+                                    <th>Thao Tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Sample Data -->
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <img src="https://images.unsplash.com/photo-1525385133512-2f3bdd039054?w=50&h=50&fit=crop" 
+                                             alt="Trà Sữa Truyền Thống" class="rounded" width="50" height="50">
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <strong>Trà Sữa Truyền Thống</strong>
+                                            <br><small class="text-muted">Trà sữa đậm đà với trân châu đen</small>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-info">Trà Sữa</span></td>
+                                    <td><strong>35.000đ</strong></td>
+                                    <td><span class="badge bg-success">Có sẵn</span></td>
+                                    <td>15/07/2025</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="@Url.Action("EditProduct", "Admin", new { id = 1 })" 
+                                               class="btn btn-sm btn-outline-primary" title="Chỉnh sửa">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <button class="btn btn-sm btn-outline-danger" 
+                                                    onclick="deleteProduct(1)" title="Xóa">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>
+                                        <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=50&h=50&fit=crop" 
+                                             alt="Cà Phê Sữa Đá" class="rounded" width="50" height="50">
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <strong>Cà Phê Sữa Đá</strong>
+                                            <br><small class="text-muted">Cà phê sữa đá đậm đà</small>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-warning">Cà Phê</span></td>
+                                    <td><strong>30.000đ</strong></td>
+                                    <td><span class="badge bg-success">Có sẵn</span></td>
+                                    <td>15/07/2025</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="@Url.Action("EditProduct", "Admin", new { id = 2 })" 
+                                               class="btn btn-sm btn-outline-primary" title="Chỉnh sửa">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <button class="btn btn-sm btn-outline-danger" 
+                                                    onclick="deleteProduct(2)" title="Xóa">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>
+                                        <img src="https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=50&h=50&fit=crop" 
+                                             alt="Trà Đào" class="rounded" width="50" height="50">
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <strong>Trà Đào</strong>
+                                            <br><small class="text-muted">Trà đào tươi mát</small>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-success">Trà Trái Cây</span></td>
+                                    <td><strong>32.000đ</strong></td>
+                                    <td><span class="badge bg-danger">Hết hàng</span></td>
+                                    <td>15/07/2025</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="@Url.Action("EditProduct", "Admin", new { id = 3 })" 
+                                               class="btn btn-sm btn-outline-primary" title="Chỉnh sửa">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <button class="btn btn-sm btn-outline-danger" 
+                                                    onclick="deleteProduct(3)" title="Xóa">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Trước</a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link" href="#">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Sau</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function deleteProduct(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+                // Gửi request xóa sản phẩm
+                window.location.href = '@Url.Action("DeleteProduct", "Admin")' + '/' + id;
+            }
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('statusFilter').value = '';
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            // Implement search logic here
+            console.log('Searching for:', this.value);
+        });
+    </script>
+}

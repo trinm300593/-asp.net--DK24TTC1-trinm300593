@@ -1,0 +1,345 @@
+@model BubbleTeaCafe.Models.Product
+
+@{
+    ViewData["Title"] = "Chỉnh Sửa Sản Phẩm";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3 mb-0">
+                    <i class="fas fa-edit me-2 text-primary"></i>Chỉnh Sửa Sản Phẩm
+                </h1>
+                <a href="@Url.Action("Products", "Admin")" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Quay Lại
+                </a>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Thông Tin Sản Phẩm</h5>
+                        </div>
+                        <div class="card-body">
+                            <form asp-action="EditProduct" method="post" enctype="multipart/form-data">
+                                <input asp-for="ProductId" type="hidden" />
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label asp-for="Name" class="form-label">Tên Sản Phẩm *</label>
+                                            <input asp-for="Name" class="form-control" placeholder="Nhập tên sản phẩm" value="Sample Product">
+                                            <span asp-validation-for="Name" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label asp-for="CategoryId" class="form-label">Danh Mục *</label>
+                                            <select asp-for="CategoryId" class="form-select">
+                                                <option value="">Chọn danh mục</option>
+                                                <option value="1" selected>Trà Sữa</option>
+                                                <option value="2">Cà Phê</option>
+                                                <option value="3">Trà Trái Cây</option>
+                                                <option value="4">Sinh Tố</option>
+                                            </select>
+                                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Description" class="form-label">Mô Tả</label>
+                                    <textarea asp-for="Description" class="form-control" rows="4" placeholder="Nhập mô tả sản phẩm">Đây là mô tả mẫu cho sản phẩm</textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Price" class="form-label">Giá (VNĐ) *</label>
+                                            <input asp-for="Price" type="number" class="form-control" placeholder="0" min="0" step="1000" value="35000">
+                                            <span asp-validation-for="Price" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Trạng Thái</label>
+                                            <select asp-for="IsAvailable" class="form-select">
+                                                <option value="true" selected>Có sẵn</option>
+                                                <option value="false">Hết hàng</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Hình Ảnh Mới</label>
+                                            <input type="file" class="form-control" accept="image/*" id="productImage">
+                                            <small class="text-muted">Để trống nếu không muốn thay đổi</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Hình Ảnh Hiện Tại</label>
+                                    <div class="current-image">
+                                        <img src="https://images.unsplash.com/photo-1525385133512-2f3bdd039054?w=200&h=150&fit=crop" 
+                                             alt="Current Product Image" class="img-thumbnail" style="max-width: 200px;">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Ingredients" class="form-label">Nguyên Liệu</label>
+                                    <textarea asp-for="Ingredients" class="form-control" rows="3" placeholder="Nhập danh sách nguyên liệu, cách nhau bởi dấu phẩy">Trà đen, Sữa tươi, Đường, Trân châu đen</textarea>
+                                    <span asp-validation-for="Ingredients" class="text-danger"></span>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="SizeOptions" class="form-label">Tùy Chọn Size</label>
+                                            <textarea asp-for="SizeOptions" class="form-control" rows="2" placeholder="S, M, L">S, M, L</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="SweetnessOptions" class="form-label">Tùy Chọn Độ Ngọt</label>
+                                            <textarea asp-for="SweetnessOptions" class="form-control" rows="2" placeholder="0%, 25%, 50%, 75%, 100%">0%, 25%, 50%, 75%, 100%</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="TemperatureOptions" class="form-label">Tùy Chọn Nhiệt Độ</label>
+                                            <textarea asp-for="TemperatureOptions" class="form-control" rows="2" placeholder="Nóng, Ấm, Lạnh, Đá">Lạnh, Đá</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="@Url.Action("Products", "Admin")" class="btn btn-secondary">
+                                        <i class="fas fa-times me-2"></i>Hủy
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger" onclick="deleteProduct()">
+                                        <i class="fas fa-trash me-2"></i>Xóa Sản Phẩm
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary" onclick="previewProduct()">
+                                        <i class="fas fa-eye me-2"></i>Xem Trước
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save me-2"></i>Cập Nhật
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- Preview Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Xem Trước</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="product-preview">
+                                <div class="preview-image mb-3">
+                                    <img id="previewImg" src="https://images.unsplash.com/photo-1525385133512-2f3bdd039054?w=300&h=200&fit=crop" 
+                                         alt="Preview" class="img-fluid rounded">
+                                </div>
+                                <h5 id="previewName">Sample Product</h5>
+                                <p id="previewDescription" class="text-muted small">Đây là mô tả mẫu cho sản phẩm</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span id="previewPrice" class="h5 text-primary">35.000đ</span>
+                                    <span id="previewStatus" class="badge bg-success">Có sẵn</span>
+                                </div>
+                                <div class="mt-2">
+                                    <small class="text-muted">
+                                        <strong>Nguyên liệu:</strong> 
+                                        <span id="previewIngredients">Trà đen, Sữa tươi, Đường, Trân châu đen</span>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product History -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-history me-2"></i>Lịch Sử Thay Đổi
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="timeline">
+                                <div class="timeline-item mb-3">
+                                    <div class="timeline-marker bg-primary"></div>
+                                    <div class="timeline-content">
+                                        <h6 class="mb-1">Tạo sản phẩm</h6>
+                                        <small class="text-muted">15/07/2025 - 10:30 AM</small>
+                                        <p class="mb-0 small">Sản phẩm được tạo bởi Admin</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item mb-3">
+                                    <div class="timeline-marker bg-warning"></div>
+                                    <div class="timeline-content">
+                                        <h6 class="mb-1">Cập nhật giá</h6>
+                                        <small class="text-muted">14/07/2025 - 2:15 PM</small>
+                                        <p class="mb-0 small">Giá thay đổi từ 30.000đ thành 35.000đ</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-marker bg-info"></div>
+                                    <div class="timeline-content">
+                                        <h6 class="mb-1">Cập nhật mô tả</h6>
+                                        <small class="text-muted">13/07/2025 - 9:45 AM</small>
+                                        <p class="mb-0 small">Cập nhật mô tả sản phẩm</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-chart-bar me-2"></i>Thống Kê
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-6">
+                                    <h4 class="text-primary">127</h4>
+                                    <small class="text-muted">Đã bán</small>
+                                </div>
+                                <div class="col-6">
+                                    <h4 class="text-success">4.8</h4>
+                                    <small class="text-muted">Đánh giá</small>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row text-center">
+                                <div class="col-6">
+                                    <h6 class="text-info">15</h6>
+                                    <small class="text-muted">Tuần này</small>
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="text-warning">8</h6>
+                                    <small class="text-muted">Hôm nay</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Real-time preview
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update preview when inputs change
+            document.querySelector('input[name="Name"]').addEventListener('input', function() {
+                document.getElementById('previewName').textContent = this.value || 'Tên sản phẩm sẽ hiển thị ở đây';
+            });
+
+            document.querySelector('textarea[name="Description"]').addEventListener('input', function() {
+                document.getElementById('previewDescription').textContent = this.value || 'Mô tả sản phẩm sẽ hiển thị ở đây';
+            });
+
+            document.querySelector('input[name="Price"]').addEventListener('input', function() {
+                const price = this.value ? parseInt(this.value).toLocaleString('vi-VN') + 'đ' : '0đ';
+                document.getElementById('previewPrice').textContent = price;
+            });
+
+            document.querySelector('select[name="IsAvailable"]').addEventListener('change', function() {
+                const status = this.value === 'true' ? 'Có sẵn' : 'Hết hàng';
+                const badgeClass = this.value === 'true' ? 'bg-success' : 'bg-danger';
+                const statusElement = document.getElementById('previewStatus');
+                statusElement.textContent = status;
+                statusElement.className = 'badge ' + badgeClass;
+            });
+
+            document.querySelector('textarea[name="Ingredients"]').addEventListener('input', function() {
+                document.getElementById('previewIngredients').textContent = this.value || 'Chưa có thông tin';
+            });
+
+            // Image preview
+            document.getElementById('productImage').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('previewImg').src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+
+        function previewProduct() {
+            alert('Xem trước sản phẩm trong card bên phải');
+        }
+
+        function deleteProduct() {
+            if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này? Hành động này không thể hoàn tác!')) {
+                // Redirect to delete action
+                window.location.href = '@Url.Action("DeleteProduct", "Admin", new { id = Model?.ProductId })';
+            }
+        }
+
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const name = document.querySelector('input[name="Name"]').value;
+            const category = document.querySelector('select[name="CategoryId"]').value;
+            const price = document.querySelector('input[name="Price"]').value;
+
+            if (!name || !category || !price) {
+                e.preventDefault();
+                alert('Vui lòng điền đầy đủ thông tin bắt buộc (Tên, Danh mục, Giá)');
+                return false;
+            }
+
+            if (parseInt(price) <= 0) {
+                e.preventDefault();
+                alert('Giá sản phẩm phải lớn hơn 0');
+                return false;
+            }
+        });
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <style>
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .timeline-item {
+            position: relative;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: -25px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .timeline-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: -21px;
+            top: 15px;
+            width: 2px;
+            height: calc(100% + 10px);
+            background-color: #dee2e6;
+        }
+    </style>
+}

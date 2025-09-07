@@ -1,0 +1,254 @@
+@model BubbleTeaCafe.Models.AdminLoginViewModel
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Đăng Nhập Admin";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 900px;
+            min-height: 600px;
+        }
+        
+        .login-left {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .login-right {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .login-logo {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .login-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-subtitle {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .form-floating {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-control {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .remember-me input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+        
+        .back-to-site {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-to-site a {
+            color: #6b7280;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-to-site a:hover {
+            color: #2563eb;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        @@media (max-width: 768px) {
+            .login-container {
+                margin: 1rem;
+                border-radius: 15px;
+            }
+            
+            .login-left {
+                padding: 2rem;
+            }
+            
+            .login-right {
+                padding: 2rem;
+            }
+            
+            .login-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="row g-0 h-100">
+            <!-- Left Side - Branding -->
+            <div class="col-lg-5 login-left">
+                <div class="login-logo">
+                    <i class="fas fa-coffee"></i>
+                </div>
+                <h1 class="login-title">Admin Panel</h1>
+                <p class="login-subtitle">Quản lý cửa hàng Bubble Tea & Coffee</p>
+                
+                <div class="mt-4">
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        <span>Bảo mật cao</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        <i class="fas fa-chart-line me-2"></i>
+                        <span>Báo cáo chi tiết</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <i class="fas fa-mobile-alt me-2"></i>
+                        <span>Responsive design</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Side - Login Form -->
+            <div class="col-lg-7 login-right">
+                <div class="text-center mb-4">
+                    <h2 class="h3 mb-2">Đăng Nhập</h2>
+                    <p class="text-muted">Vui lòng nhập thông tin đăng nhập của bạn</p>
+                </div>
+                
+                @if (ViewData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        @ViewData["ErrorMessage"]
+                    </div>
+                }
+                
+                <form asp-action="Login" method="post">
+                    <div class="form-floating">
+                        <input asp-for="Username" class="form-control" id="username" placeholder="Tên đăng nhập">
+                        <label for="username"><i class="fas fa-user me-2"></i>Tên đăng nhập</label>
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="form-floating">
+                        <input asp-for="Password" type="password" class="form-control" id="password" placeholder="Mật khẩu">
+                        <label for="password"><i class="fas fa-lock me-2"></i>Mật khẩu</label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="remember-me">
+                        <input asp-for="RememberMe" type="checkbox" id="rememberMe">
+                        <label for="rememberMe">Ghi nhớ đăng nhập</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-login w-100">
+                        <i class="fas fa-sign-in-alt me-2"></i>
+                        Đăng Nhập
+                    </button>
+                </form>
+                
+                <div class="back-to-site">
+                    <a href="/">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Quay về trang chủ
+                    </a>
+                </div>
+                
+                <div class="mt-4 text-center">
+                    <small class="text-muted">
+                        <strong>Tài khoản demo:</strong><br>
+                        Username: <code>admin</code><br>
+                        Password: <code>admin123</code>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Auto focus on username field
+        document.getElementById('username').focus();
+        
+        // Add loading state to login button
+        document.querySelector('form').addEventListener('submit', function() {
+            const btn = document.querySelector('.btn-login');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Đang đăng nhập...';
+            btn.disabled = true;
+        });
+    </script>
+    
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+</body>
+</html>

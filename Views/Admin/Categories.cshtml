@@ -1,0 +1,341 @@
+@{
+    ViewData["Title"] = "Quản Lý Danh Mục";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Stats Cards -->
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="stats-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="text-primary mb-1">4</h3>
+                    <p class="text-muted mb-0">Tổng Danh Mục</p>
+                </div>
+                <div class="text-primary">
+                    <i class="fas fa-tags fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="stats-card" style="border-left-color: var(--admin-success);">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="text-success mb-1">156</h3>
+                    <p class="text-muted mb-0">Tổng Sản Phẩm</p>
+                </div>
+                <div class="text-success">
+                    <i class="fas fa-box fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="stats-card" style="border-left-color: var(--admin-warning);">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="text-warning mb-1">89%</h3>
+                    <p class="text-muted mb-0">Tỷ Lệ Hoạt Động</p>
+                </div>
+                <div class="text-warning">
+                    <i class="fas fa-chart-pie fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="stats-card" style="border-left-color: var(--admin-info);">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="text-info mb-1">12</h3>
+                    <p class="text-muted mb-0">Danh Mục Mới</p>
+                </div>
+                <div class="text-info">
+                    <i class="fas fa-plus-circle fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Categories Management -->
+<div class="row">
+    <div class="col-lg-8 mb-4">
+        <div class="admin-card">
+            <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-tags me-2"></i>Danh Sách Danh Mục
+                </h5>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                    <i class="fas fa-plus me-2"></i>Thêm Danh Mục
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên Danh Mục</th>
+                                <th>Mô Tả</th>
+                                <th>Số Sản Phẩm</th>
+                                <th>Trạng Thái</th>
+                                <th>Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="category-icon bg-primary text-white rounded-circle me-3" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-coffee"></i>
+                                        </div>
+                                        <strong>Trà Sữa</strong>
+                                    </div>
+                                </td>
+                                <td>Các loại trà sữa truyền thống và hiện đại</td>
+                                <td><span class="badge bg-info">45 sản phẩm</span></td>
+                                <td><span class="badge bg-success">Hoạt động</span></td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="editCategory(1)" title="Chỉnh sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(1)" title="Xóa">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="category-icon bg-warning text-white rounded-circle me-3" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-mug-hot"></i>
+                                        </div>
+                                        <strong>Cà Phê</strong>
+                                    </div>
+                                </td>
+                                <td>Cà phê rang xay, espresso, americano</td>
+                                <td><span class="badge bg-info">32 sản phẩm</span></td>
+                                <td><span class="badge bg-success">Hoạt động</span></td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="editCategory(2)" title="Chỉnh sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(2)" title="Xóa">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="category-icon bg-success text-white rounded-circle me-3" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-leaf"></i>
+                                        </div>
+                                        <strong>Trà Trái Cây</strong>
+                                    </div>
+                                </td>
+                                <td>Trà đào, trà chanh, trà vải</td>
+                                <td><span class="badge bg-info">28 sản phẩm</span></td>
+                                <td><span class="badge bg-success">Hoạt động</span></td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="editCategory(3)" title="Chỉnh sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(3)" title="Xóa">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="category-icon bg-info text-white rounded-circle me-3" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-blender"></i>
+                                        </div>
+                                        <strong>Sinh Tố</strong>
+                                    </div>
+                                </td>
+                                <td>Sinh tố trái cây tươi ngon</td>
+                                <td><span class="badge bg-info">15 sản phẩm</span></td>
+                                <td><span class="badge bg-warning">Tạm dừng</span></td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="editCategory(4)" title="Chỉnh sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success" onclick="activateCategory(4)" title="Kích hoạt">
+                                            <i class="fas fa-play"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(4)" title="Xóa">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4 mb-4">
+        <div class="admin-card">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-pie me-2"></i>Phân Bố Sản Phẩm
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="categoryChart" height="200"></canvas>
+            </div>
+        </div>
+        
+        <div class="admin-card mt-4">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-lightbulb me-2"></i>Gợi Ý
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Tên danh mục ngắn gọn, dễ hiểu
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Mô tả chi tiết về loại sản phẩm
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Sử dụng icon phù hợp
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Theo dõi số lượng sản phẩm
+                    </li>
+                    <li>
+                        <i class="fas fa-check text-success me-2"></i>
+                        Cập nhật trạng thái thường xuyên
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Category Modal -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm Danh Mục Mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addCategoryForm">
+                    <div class="mb-3">
+                        <label class="form-label">Tên danh mục *</label>
+                        <input type="text" class="form-control" required placeholder="Nhập tên danh mục">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mô tả</label>
+                        <textarea class="form-control" rows="3" placeholder="Nhập mô tả danh mục"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Icon</label>
+                        <select class="form-select">
+                            <option value="fas fa-coffee">☕ Cà phê</option>
+                            <option value="fas fa-mug-hot">🍵 Trà</option>
+                            <option value="fas fa-leaf">🍃 Trái cây</option>
+                            <option value="fas fa-blender">🥤 Sinh tố</option>
+                            <option value="fas fa-ice-cream">🍦 Kem</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Trạng thái</label>
+                        <select class="form-select">
+                            <option value="active">Hoạt động</option>
+                            <option value="inactive">Tạm dừng</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="addCategory()">Thêm Danh Mục</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Category distribution chart
+        const ctx = document.getElementById('categoryChart').getContext('2d');
+        const categoryChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Trà Sữa', 'Cà Phê', 'Trà Trái Cây', 'Sinh Tố'],
+                datasets: [{
+                    data: [45, 32, 28, 15],
+                    backgroundColor: [
+                        '#2563eb',
+                        '#f59e0b',
+                        '#059669',
+                        '#0891b2'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        function editCategory(id) {
+            alert('Chỉnh sửa danh mục ID: ' + id);
+        }
+
+        function deleteCategory(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa danh mục này?')) {
+                alert('Xóa danh mục ID: ' + id);
+            }
+        }
+
+        function activateCategory(id) {
+            if (confirm('Bạn có muốn kích hoạt lại danh mục này?')) {
+                alert('Kích hoạt danh mục ID: ' + id);
+            }
+        }
+
+        function addCategory() {
+            alert('Thêm danh mục mới');
+            document.getElementById('addCategoryModal').querySelector('.btn-close').click();
+        }
+    </script>
+}

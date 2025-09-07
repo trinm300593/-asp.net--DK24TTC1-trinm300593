@@ -1,0 +1,137 @@
+@{
+    ViewData["Title"] = "Thư Viện Hình Ảnh";
+}
+
+<div class="container py-5">
+    <div class="row text-center mb-5">
+        <div class="col">
+            <h1 class="display-4 mb-3">
+                <i class="fas fa-images me-3"></i>Thư Viện Hình Ảnh
+            </h1>
+            <p class="lead text-muted">Khám phá bộ sưu tập hình ảnh sản phẩm đẹp mắt của chúng tôi</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card product-card h-100">
+                <img src="/images/tra-sua-truyen-thong.svg" alt="Trà Sữa Truyền Thống" class="card-img-top" style="height: 300px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Trà Sữa Truyền Thống</h5>
+                    <p class="text-muted">Classic Bubble Tea</p>
+                    <span class="price-tag">35.000đ</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card product-card h-100">
+                <img src="/images/tra-sua-matcha.svg" alt="Trà Sữa Matcha" class="card-img-top" style="height: 300px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Trà Sữa Matcha</h5>
+                    <p class="text-muted">Matcha Bubble Tea</p>
+                    <span class="price-tag">40.000đ</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card product-card h-100">
+                <img src="/images/ca-phe-den-da.svg" alt="Cà Phê Đen Đá" class="card-img-top" style="height: 300px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Cà Phê Đen Đá</h5>
+                    <p class="text-muted">Iced Black Coffee</p>
+                    <span class="price-tag">25.000đ</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card product-card h-100">
+                <img src="/images/ca-phe-sua-da.svg" alt="Cà Phê Sữa Đá" class="card-img-top" style="height: 300px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Cà Phê Sữa Đá</h5>
+                    <p class="text-muted">Iced Milk Coffee</p>
+                    <span class="price-tag">30.000đ</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card product-card h-100">
+                <img src="/images/tra-dao.svg" alt="Trà Đào" class="card-img-top" style="height: 300px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Trà Đào</h5>
+                    <p class="text-muted">Peach Tea</p>
+                    <span class="price-tag">32.000đ</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card product-card h-100">
+                <img src="/images/sinh-to-xoai.svg" alt="Sinh Tố Xoài" class="card-img-top" style="height: 300px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Sinh Tố Xoài</h5>
+                    <p class="text-muted">Mango Smoothie</p>
+                    <span class="price-tag">42.000đ</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col text-center">
+            <h3 class="mb-4">Hình Nền Hero Section</h3>
+            <div class="card">
+                <img src="/images/hero-bg.svg" alt="Hero Background" class="card-img-top" style="height: 400px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">Hero Background</h5>
+                    <p class="text-muted">Hình nền chính của website với thiết kế gradient đẹp mắt</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col text-center">
+            <h3 class="mb-4">Công Cụ Tạo Hình Ảnh</h3>
+            <p class="text-muted mb-4">Bạn có thể sử dụng công cụ HTML để tạo thêm hình ảnh cho sản phẩm mới</p>
+            <a href="/images/generate-images.html" class="btn btn-primary btn-lg" target="_blank">
+                <i class="fas fa-tools me-2"></i>Mở Công Cụ Tạo Hình
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Add lightbox effect for images
+        document.querySelectorAll('.card-img-top').forEach(img => {
+            img.addEventListener('click', function() {
+                const modal = document.createElement('div');
+                modal.className = 'modal fade';
+                modal.innerHTML = `
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">${this.alt}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <img src="${this.src}" alt="${this.alt}" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+                const bsModal = new bootstrap.Modal(modal);
+                bsModal.show();
+                
+                modal.addEventListener('hidden.bs.modal', function() {
+                    modal.remove();
+                });
+            });
+        });
+    </script>
+}

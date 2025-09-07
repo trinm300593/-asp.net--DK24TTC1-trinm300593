@@ -1,0 +1,133 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="admin-dashboard">
+    <div class="dashboard-header">
+        <h1>🧋 Dashboard Quản Trị</h1>
+        <p>Chào mừng bạn đến với trang quản trị Bubble Tea Cafe</p>
+    </div>
+
+    <div class="stats-overview">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-shopping-bag"></i>
+            </div>
+            <div class="stat-content">
+                <h3>156</h3>
+                <p>Đơn hàng hôm nay</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+            <div class="stat-content">
+                <h3>2.5M VNĐ</h3>
+                <p>Doanh thu hôm nay</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-coffee"></i>
+            </div>
+            <div class="stat-content">
+                <h3>45</h3>
+                <p>Sản phẩm</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-content">
+                <h3>1,234</h3>
+                <p>Khách hàng</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-chart-line"></i> Biểu đồ doanh thu</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="revenueChart" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-clock"></i> Đơn hàng gần đây</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="recent-order">
+                            <div class="order-info">
+                                <strong>#001</strong>
+                                <span class="order-time">10:30 AM</span>
+                            </div>
+                            <div class="order-status pending">Đang xử lý</div>
+                        </div>
+                        <div class="recent-order">
+                            <div class="order-info">
+                                <strong>#002</strong>
+                                <span class="order-time">10:25 AM</span>
+                            </div>
+                            <div class="order-status completed">Hoàn thành</div>
+                        </div>
+                        <div class="recent-order">
+                            <div class="order-info">
+                                <strong>#003</strong>
+                                <span class="order-time">10:20 AM</span>
+                            </div>
+                            <div class="order-status preparing">Đang pha chế</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Biểu đồ doanh thu
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        const revenueChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+                datasets: [{
+                    label: 'Doanh thu (VNĐ)',
+                    data: [1200000, 1900000, 3000000, 2500000, 2200000, 3200000, 2800000],
+                    borderColor: '#6c63ff',
+                    backgroundColor: 'rgba(108, 99, 255, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString('vi-VN') + ' VNĐ';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}

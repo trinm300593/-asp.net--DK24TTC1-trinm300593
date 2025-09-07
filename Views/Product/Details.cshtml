@@ -1,0 +1,232 @@
+@model BubbleTeaCafe.Models.Product
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container py-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Menu", "Product")">Thực đơn</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Category", "Product", new { id = Model.CategoryId })">@Model.Category.Name</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm overflow-hidden">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" alt="@Model.Name" class="w-100" style="height: 400px; object-fit: cover;" />
+                }
+                else
+                {
+                    <div class="product-image-placeholder d-flex align-items-center justify-content-center" style="height: 400px;">
+                        @switch (Model.Category.Name)
+                        {
+                            case "Trà Sữa":
+                                <div class="text-center">
+                                    <i class="fas fa-coffee fa-6x text-primary mb-3"></i>
+                                    <div class="h5 text-muted">@Model.Category.Name</div>
+                                </div>
+                                break;
+                            case "Cà Phê":
+                                <div class="text-center">
+                                    <i class="fas fa-mug-hot fa-6x text-warning mb-3"></i>
+                                    <div class="h5 text-muted">@Model.Category.Name</div>
+                                </div>
+                                break;
+                            case "Trà Trái Cây":
+                                <div class="text-center">
+                                    <i class="fas fa-glass-whiskey fa-6x text-success mb-3"></i>
+                                    <div class="h5 text-muted">@Model.Category.Name</div>
+                                </div>
+                                break;
+                            case "Smoothie":
+                                <div class="text-center">
+                                    <i class="fas fa-blender fa-6x text-info mb-3"></i>
+                                    <div class="h5 text-muted">@Model.Category.Name</div>
+                                </div>
+                                break;
+                            default:
+                                <div class="text-center">
+                                    <i class="fas fa-image fa-6x text-muted mb-3"></i>
+                                    <div class="h5 text-muted">Sản phẩm</div>
+                                </div>
+                                break;
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="mb-3">
+                <span class="badge bg-primary">@Model.Category.Name</span>
+                @if (!Model.IsAvailable)
+                {
+                    <span class="badge bg-danger ms-2">Hết hàng</span>
+                }
+            </div>
+            
+            <h1 class="display-5 mb-3">@Model.Name</h1>
+            <p class="lead text-muted mb-4">@Model.Description</p>
+            
+            @if (!string.IsNullOrEmpty(Model.Ingredients))
+            {
+                <div class="mb-4">
+                    <h6><i class="fas fa-leaf text-success me-2"></i>Thành phần:</h6>
+                    <p class="text-muted">@Model.Ingredients</p>
+                </div>
+            }
+            
+            <div class="mb-4">
+                <h2 class="price-tag display-6">@Model.Price.ToString("N0")đ</h2>
+            </div>
+
+            @if (Model.IsAvailable)
+            {
+                <form method="post" action="@Url.Action("AddToCart", "Cart")" class="product-options">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="ProductId" value="@Model.ProductId" />
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="quantity" class="form-label fw-bold">Số lượng</label>
+                            <input type="number" class="form-control" id="quantity" name="Quantity" value="1" min="1" max="99" required>
+                        </div>
+                        
+                        @if (!string.IsNullOrEmpty(Model.SizeOptions))
+                        {
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Kích thước</label>
+                                <div class="option-group">
+                                    @foreach (var size in Model.SizeOptions.Split(','))
+                                    {
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="Size" value="@size.Trim()" id="size@size.Trim()" @(size.Trim() == "M" ? "checked" : "")>
+                                            <label class="form-check-label" for="size@size.Trim()">
+                                                Size @size.Trim() @(size.Trim() == "L" ? "(+5.000đ)" : "")
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    
+                    <div class="row">
+                        @if (!string.IsNullOrEmpty(Model.TemperatureOptions))
+                        {
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Nhiệt độ</label>
+                                <div class="option-group">
+                                    @foreach (var temp in Model.TemperatureOptions.Split(','))
+                                    {
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="Temperature" value="@temp.Trim()" id="temp@temp.Trim()" @(temp.Trim() == "Cold" ? "checked" : "")>
+                                            <label class="form-check-label" for="temp@temp.Trim()">
+                                                @switch (temp.Trim())
+                                                {
+                                                    case "Cold": <text>Lạnh</text> break;
+                                                    case "Hot": <text>Nóng</text> break;
+                                                    case "Iced": <text>Đá</text> break;
+                                                    default: <text>@temp.Trim()</text> break;
+                                                }
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        
+                        @if (!string.IsNullOrEmpty(Model.SweetnessOptions))
+                        {
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Độ ngọt</label>
+                                <select class="form-select" name="Sweetness">
+                                    @foreach (var sweetness in Model.SweetnessOptions.Split(','))
+                                    {
+                                        <option value="@sweetness.Trim()" selected="@(sweetness.Trim() == "50%")">
+                                            @sweetness.Trim() @(sweetness.Trim() == "0%" ? "(Không đường)" : "")
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                        }
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="specialInstructions" class="form-label fw-bold">Ghi chú đặc biệt</label>
+                        <textarea class="form-control" id="specialInstructions" name="SpecialInstructions" rows="3" placeholder="Ví dụ: Ít đá, nhiều trân châu, không sữa..."></textarea>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex">
+                        <button type="submit" class="btn btn-primary btn-lg flex-fill">
+                            <i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ hàng
+                        </button>
+                        <a href="@Url.Action("Category", "Product", new { id = Model.CategoryId })" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-arrow-left me-2"></i>Quay lại
+                        </a>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Sản phẩm này hiện tại đã hết hàng. Vui lòng chọn sản phẩm khác.
+                </div>
+                <a href="@Url.Action("Category", "Product", new { id = Model.CategoryId })" class="btn btn-outline-secondary btn-lg">
+                    <i class="fas fa-arrow-left me-2"></i>Quay lại danh mục
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Related Products Section -->
+<div class="bg-light py-5">
+    <div class="container">
+        <h3 class="mb-4">Sản phẩm liên quan</h3>
+        <div class="row g-4">
+            <!-- This would be populated with related products from the same category -->
+            <div class="col-md-3">
+                <div class="card product-card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-coffee fa-3x text-primary mb-3"></i>
+                        <h6>Sản phẩm khác</h6>
+                        <p class="text-muted small">Khám phá thêm nhiều sản phẩm tuyệt vời</p>
+                        <a href="@Url.Action("Category", "Product", new { id = Model.CategoryId })" class="btn btn-outline-primary btn-sm">
+                            Xem thêm
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Update price when size changes
+        document.querySelectorAll('input[name="Size"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // You can add price calculation logic here
+                // For example, add 5000 for size L
+            });
+        });
+        
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const quantity = document.getElementById('quantity').value;
+            if (quantity < 1 || quantity > 99) {
+                e.preventDefault();
+                alert('Số lượng phải từ 1 đến 99');
+                return false;
+            }
+        });
+    </script>
+}
